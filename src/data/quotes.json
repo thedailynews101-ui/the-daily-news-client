@@ -1,0 +1,26 @@
+[
+  {
+    "id": "q1",
+    "text": "Education is the most powerful weapon which you can use to change the world.",
+    "author": "Nelson Mandela",
+    "setBy": "Admin",
+    "date": "2026-09-13",
+    "isActive": true
+  },
+  {
+    "id": "q2",
+    "text": "The future belongs to those who believe in the beauty of their dreams.",
+    "author": "Eleanor Roosevelt",
+    "setBy": "Admin",
+    "date": "2026-09-12",
+    "isActive": false
+  },
+  {
+    "id": "q3",
+    "text": "Curiosity is the engine of achievement.",
+    "author": "Ken Robinson",
+    "setBy": "Admin",
+    "date": "2026-09-11",
+    "isActive": false
+  }
+]
