@@ -1,8 +1,5 @@
+import { RequireAuth } from "@/components/auth/RequireAuth";
+
 export default function DashboardLayout({ children }: LayoutProps<"/">) {
-  return (
-    <>
-     dashboard layout
-    {children}
-    </>
-  );
+  return <RequireAuth>{children}</RequireAuth>;
 }

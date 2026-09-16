@@ -1,11 +1,15 @@
-import React from 'react'
+import type { Metadata } from "next";
 
-export const ResetPasswordPage: React.FC = () => {
-  return (
-    <div>
-        <h1>Reset Password</h1>
-    </div>
-  )
+import { ResetPasswordForm } from "@/components/auth/ResetPasswordForm";
+
+export const metadata: Metadata = {
+  title: "Reset password - The Daily Newsfeed",
+};
+
+export default async function ResetPasswordPage(props: PageProps<"/reset-password">) {
+  const searchParams = await props.searchParams;
+  const tokenParam = searchParams.token;
+  const token = Array.isArray(tokenParam) ? tokenParam[0] : tokenParam;
+
+  return <ResetPasswordForm token={token} />;
 }
-
-export default ResetPasswordPage;

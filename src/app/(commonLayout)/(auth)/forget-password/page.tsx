@@ -1,11 +1,11 @@
-import React from 'react'
+import type { Metadata } from "next";
 
-export const ForgetPasswordPage: React.FC = () => {
-  return (
-    <div>
-        <h1>Forget Password</h1>
-    </div>
-  )
+import { ForgotPasswordForm } from "@/components/auth/ForgotPasswordForm";
+
+export const metadata: Metadata = {
+  title: "Forgot password - The Daily Newsfeed",
+};
+
+export default function ForgetPasswordPage() {
+  return <ForgotPasswordForm />;
 }
-
-export default ForgetPasswordPage;

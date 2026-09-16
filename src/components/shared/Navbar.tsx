@@ -5,9 +5,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useLogout } from "@/hooks/auth/use-logout";
+import { getDashboardPathForRole } from "@/lib/auth-routes";
+import { cn, getInitials } from "@/lib/utils";
 
 const NAV_LINKS = [
   { href: "/", label: "Newsfeed" },
@@ -18,6 +32,9 @@ export function Navbar() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = React.useCallback(() => setIsMenuOpen(false), []);
+
+  const { user, isLoading, isAuthenticated } = useAuth();
+  const logoutMutation = useLogout();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -49,12 +66,46 @@ export function Navbar() {
 
         <div className="hidden items-center gap-3 md:flex">
           <ThemeToggle />
-          <Button variant="outline" size="sm" render={<Link href="/login" />}>
-            Login
-          </Button>
-          <Button size="sm" render={<Link href="/register" />}>
-            Sign Up
-          </Button>
+
+          {isLoading ? (
+            <Skeleton className="size-8 rounded-full" />
+          ) : isAuthenticated && user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
+                <Avatar>
+                  <AvatarImage src={user.avatarUrl ?? undefined} alt={user.name} />
+                  <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel className="px-2 py-1.5 text-sm font-medium text-foreground">
+                    {user.name}
+                  </DropdownMenuLabel>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem render={<Link href={getDashboardPathForRole(user.role)} />}>
+                  Dashboard
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  variant="destructive"
+                  onClick={() => logoutMutation.mutate()}
+                  disabled={logoutMutation.isPending}
+                >
+                  {logoutMutation.isPending ? "Logging out..." : "Log out"}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button variant="outline" size="sm" render={<Link href="/login" />}>
+                Login
+              </Button>
+              <Button size="sm" render={<Link href="/register" />}>
+                Sign Up
+              </Button>
+            </>
+          )}
         </div>
 
         <button
@@ -81,22 +132,47 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {isAuthenticated && user && (
+              <Link
+                href={getDashboardPathForRole(user.role)}
+                onClick={closeMenu}
+                className="rounded-md px-2 py-2 text-sm font-medium text-foreground hover:bg-muted"
+              >
+                Dashboard
+              </Link>
+            )}
           </nav>
           <div className="mt-3 flex items-center justify-between gap-3">
             <ThemeToggle />
-            <div className="flex items-center gap-2">
+            {isLoading ? (
+              <Skeleton className="h-8 w-24" />
+            ) : isAuthenticated && user ? (
               <Button
                 variant="outline"
                 size="sm"
-                onClick={closeMenu}
-                render={<Link href="/login" />}
+                disabled={logoutMutation.isPending}
+                onClick={() => {
+                  closeMenu();
+                  logoutMutation.mutate();
+                }}
               >
-                Login
+                {logoutMutation.isPending ? "Logging out..." : "Log out"}
               </Button>
-              <Button size="sm" onClick={closeMenu} render={<Link href="/register" />}>
-                Sign Up
-              </Button>
-            </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={closeMenu}
+                  render={<Link href="/login" />}
+                >
+                  Login
+                </Button>
+                <Button size="sm" onClick={closeMenu} render={<Link href="/register" />}>
+                  Sign Up
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       )}

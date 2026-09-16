@@ -1,11 +1,16 @@
-import React from 'react'
+import type { Metadata } from "next";
+import { Suspense } from "react";
 
-export const LoginPage: React.FC = () => {
+import { LoginForm } from "@/components/auth/LoginForm";
+
+export const metadata: Metadata = {
+  title: "Log in - The Daily Newsfeed",
+};
+
+export default function LoginPage() {
   return (
-    <div>
-        <h1>Login</h1>
-    </div>
-  )
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
+  );
 }
-
-export default LoginPage;
