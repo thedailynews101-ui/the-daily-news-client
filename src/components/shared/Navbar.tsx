@@ -21,12 +21,16 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLogout } from "@/hooks/auth/use-logout";
 import { getDashboardPathForRole } from "@/lib/auth-routes";
+import { isStaffRole } from "@/lib/dashboard-nav";
 import { cn, getInitials } from "@/lib/utils";
 
 const NAV_LINKS = [
   { href: "/", label: "Newsfeed" },
   { href: "/about", label: "About Us" },
 ];
+
+const REQUEST_HREF = "/dashboard/my-articles/new";
+const REQUEST_LOGIN_HREF = `/login?redirect=${encodeURIComponent(REQUEST_HREF)}`;
 
 export function Navbar() {
   const pathname = usePathname();
@@ -35,6 +39,9 @@ export function Navbar() {
 
   const { user, isLoading, isAuthenticated } = useAuth();
   const logoutMutation = useLogout();
+
+  const showRequestButton = !isAuthenticated || (user && !isStaffRole(user.role));
+  const requestHref = isAuthenticated ? REQUEST_HREF : REQUEST_LOGIN_HREF;
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -70,34 +77,51 @@ export function Navbar() {
           {isLoading ? (
             <Skeleton className="size-8 rounded-full" />
           ) : isAuthenticated && user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
-                <Avatar>
-                  <AvatarImage src={user.avatarUrl ?? undefined} alt={user.name} />
-                  <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuGroup>
-                  <DropdownMenuLabel className="px-2 py-1.5 text-sm font-medium text-foreground">
-                    {user.name}
-                  </DropdownMenuLabel>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem render={<Link href={getDashboardPathForRole(user.role)} />}>
-                  Dashboard
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  variant="destructive"
-                  onClick={() => logoutMutation.mutate()}
-                  disabled={logoutMutation.isPending}
-                >
-                  {logoutMutation.isPending ? "Logging out..." : "Log out"}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <>
+              {showRequestButton && (
+                <Button variant="outline" size="sm" render={<Link href={requestHref} />}>
+                  Request
+                </Button>
+              )}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
+                  <Avatar>
+                    <AvatarImage src={user.avatarUrl ?? undefined} alt={user.name} />
+                    <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuGroup>
+                    <DropdownMenuLabel className="px-2 py-1.5 text-sm font-medium text-foreground">
+                      {user.name}
+                    </DropdownMenuLabel>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem render={<Link href={getDashboardPathForRole(user.role)} />}>
+                    Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem render={<Link href="/my-profile" />}>My Profile</DropdownMenuItem>
+                  <DropdownMenuItem render={<Link href="/change-password" />}>
+                    Change Password
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    variant="destructive"
+                    onClick={() => logoutMutation.mutate()}
+                    disabled={logoutMutation.isPending}
+                  >
+                    {logoutMutation.isPending ? "Logging out..." : "Log out"}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
           ) : (
             <>
+              {showRequestButton && (
+                <Button variant="outline" size="sm" render={<Link href={requestHref} />}>
+                  Request
+                </Button>
+              )}
               <Button variant="outline" size="sm" render={<Link href="/login" />}>
                 Login
               </Button>
@@ -133,12 +157,37 @@ export function Navbar() {
               </Link>
             ))}
             {isAuthenticated && user && (
+              <>
+                <Link
+                  href={getDashboardPathForRole(user.role)}
+                  onClick={closeMenu}
+                  className="rounded-md px-2 py-2 text-sm font-medium text-foreground hover:bg-muted"
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  href="/my-profile"
+                  onClick={closeMenu}
+                  className="rounded-md px-2 py-2 text-sm font-medium text-foreground hover:bg-muted"
+                >
+                  My Profile
+                </Link>
+                <Link
+                  href="/change-password"
+                  onClick={closeMenu}
+                  className="rounded-md px-2 py-2 text-sm font-medium text-foreground hover:bg-muted"
+                >
+                  Change Password
+                </Link>
+              </>
+            )}
+            {showRequestButton && (
               <Link
-                href={getDashboardPathForRole(user.role)}
+                href={requestHref}
                 onClick={closeMenu}
                 className="rounded-md px-2 py-2 text-sm font-medium text-foreground hover:bg-muted"
               >
-                Dashboard
+                Request
               </Link>
             )}
           </nav>

@@ -1,11 +1,19 @@
-import React from 'react'
+import { Suspense } from "react";
 
-export const ManageArticlesPage: React.FC = () => {
+import { ManageArticlesView } from "@/components/dashboard/ManageArticlesView";
+import { Skeleton } from "@/components/ui/skeleton";
+
+export default function ManageArticlesPage() {
   return (
-    <div>
-        <h1>Manage Articles</h1>
-    </div>
-  )
+    <Suspense
+      fallback={
+        <div className="flex flex-col gap-3">
+          <Skeleton className="h-10 w-48" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+      }
+    >
+      <ManageArticlesView basePath="/employee/dashboard/manage-articles" />
+    </Suspense>
+  );
 }
-
-export default ManageArticlesPage;

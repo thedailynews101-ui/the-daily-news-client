@@ -1,11 +1,5 @@
-import React from 'react'
+import { UserDashboardHome } from "@/components/dashboard/UserDashboardHome";
 
-export const DashboardPage: React.FC = () => {
-  return (
-    <div>
-        <h1>Dashboard</h1>
-    </div>
-  )
+export default function DashboardPage() {
+  return <UserDashboardHome />;
 }
-
-export default DashboardPage;

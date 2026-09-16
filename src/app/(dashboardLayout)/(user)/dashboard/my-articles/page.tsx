@@ -1,11 +1,19 @@
-import React from 'react'
+import { Suspense } from "react";
 
-export const MyArticlesPage: React.FC = () => {
+import { MyArticlesView } from "@/components/dashboard/MyArticlesView";
+import { Skeleton } from "@/components/ui/skeleton";
+
+export default function MyArticlesPage() {
   return (
-    <div>
-        <h1>My Articles</h1>
-    </div>
-  )
+    <Suspense
+      fallback={
+        <div className="flex flex-col gap-3">
+          <Skeleton className="h-10 w-48" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+      }
+    >
+      <MyArticlesView />
+    </Suspense>
+  );
 }
-
-export default MyArticlesPage;

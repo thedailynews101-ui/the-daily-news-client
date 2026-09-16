@@ -1,11 +1,5 @@
-import React from 'react'
+import { RequestedArticlesView } from "@/components/dashboard/RequestedArticlesView";
 
-export const RequestedArticlesPage: React.FC = () => {
-  return (
-    <div>
-        <h1>Requested Articles</h1>
-    </div>
-  )
+export default function RequestedArticlesPage() {
+  return <RequestedArticlesView />;
 }
-
-export default RequestedArticlesPage;
