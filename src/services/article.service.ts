@@ -72,6 +72,14 @@ export async function approveArticle(
   return httpClient.post(`${ARTICLES_BASE}/${id}/approve`, payload);
 }
 
+/** Staff: publish a DRAFT directly (skips the user moderation queue). */
+export async function publishDraft(
+  id: string,
+  payload: ApproveArticlePayload = {}
+): Promise<ApiResponse<Article>> {
+  return httpClient.post(`${ARTICLES_BASE}/${id}/publish`, payload);
+}
+
 export async function rejectArticle(
   id: string,
   payload: RejectArticlePayload

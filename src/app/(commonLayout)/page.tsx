@@ -11,7 +11,7 @@ import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { NewsfeedGrid } from "@/components/home/NewsfeedGrid";
 import { WidgetsRow } from "@/components/home/WidgetsRow";
 import { PromoBanner } from "@/components/home/PromoBanner";
-import { NewsletterBar } from "@/components/home/NewsletterBar";
+
 
 export default async function Home() {
   const [heroArticles, megaArticle, feedArticles, visualArticles, pinnedArticles, quote, weather] =
@@ -36,7 +36,7 @@ export default async function Home() {
       />
       <WidgetsRow weather={weather} quote={quote} />
       <PromoBanner />
-      <NewsletterBar />
+      
     </>
   );
 }

@@ -10,6 +10,7 @@ import {
   archiveArticle,
   createArticle,
   deleteArticle,
+  publishDraft,
   rejectArticle,
   restoreArticle,
   submitArticle,
@@ -111,6 +112,22 @@ export function useApproveArticle() {
   return useMutation({
     mutationFn: ({ id, payload }: { id: string; payload?: ApproveArticlePayload }) =>
       approveArticle(id, payload),
+    onSuccess: (response) => {
+      toast.success(response.message);
+      void invalidateArticleQueries(queryClient);
+    },
+    onError: (error) => {
+      toast.error(getApiErrorMessage(error));
+    },
+  });
+}
+
+export function usePublishDraft() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload?: ApproveArticlePayload }) =>
+      publishDraft(id, payload),
     onSuccess: (response) => {
       toast.success(response.message);
       void invalidateArticleQueries(queryClient);

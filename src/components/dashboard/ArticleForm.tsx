@@ -9,7 +9,7 @@ import { TextField } from "@/components/form/TextField";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { useCreateArticle, useUpdateArticle } from "@/hooks/articles/use-article-mutations";
+import { useCreateArticle, usePublishDraft, useUpdateArticle } from "@/hooks/articles/use-article-mutations";
 import { useCategories } from "@/hooks/articles/use-categories";
 import { articleFormSchema, parseTagNames, type ArticleFormValues } from "@/schemas/article.schema";
 import type { Article, CreateArticlePayload, UpdateArticlePayload } from "@/types/article";
@@ -90,7 +90,9 @@ export function ArticleForm({
   const { data: categories = [] } = useCategories();
   const createMutation = useCreateArticle();
   const updateMutation = useUpdateArticle();
-  const isPending = createMutation.isPending || updateMutation.isPending;
+  const publishMutation = usePublishDraft();
+  const isPending =
+    createMutation.isPending || updateMutation.isPending || publishMutation.isPending;
 
   const form = useForm({
     defaultValues: toFormValues(article),
@@ -111,6 +113,14 @@ export function ArticleForm({
       );
     },
   });
+
+  const handlePublishDraft = () => {
+    if (!article) return;
+    publishMutation.mutate(
+      { id: article.id },
+      { onSuccess: () => router.push(successHref) }
+    );
+  };
 
   return (
     <Card className="w-full max-w-3xl">
@@ -272,6 +282,11 @@ export function ArticleForm({
                 </Button>
               )}
             </form.Subscribe>
+            {isStaff && mode === "edit" && article?.status === "DRAFT" && (
+              <Button type="button" disabled={isPending} onClick={handlePublishDraft}>
+                {publishMutation.isPending ? "Publishing..." : "Publish now"}
+              </Button>
+            )}
             <Button
               type="button"
               variant="outline"

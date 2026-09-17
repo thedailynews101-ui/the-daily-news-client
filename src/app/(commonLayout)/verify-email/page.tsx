@@ -37,15 +37,8 @@ async function consumeVerificationToken(token: string): Promise<"success" | "inv
       cache: "no-store",
     });
 
-    // #region agent log
-    fetch('http://127.0.0.1:7579/ingest/dcec5555-5b6c-4a43-bb0d-e7523cdc3d5d',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'35c314'},body:JSON.stringify({sessionId:'35c314',runId:'post-fix',hypothesisId:'H4',location:'verify-email/page.tsx:40',message:'server-side verification call finished',data:{tokenLength:token.length,httpStatus:response.status,ok:response.ok,redirectingTo:response.ok?'?status=success':'?status=invalid'},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
-
     return response.ok ? "success" : "invalid";
-  } catch (error) {
-    // #region agent log
-    fetch('http://127.0.0.1:7579/ingest/dcec5555-5b6c-4a43-bb0d-e7523cdc3d5d',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'35c314'},body:JSON.stringify({sessionId:'35c314',runId:'post-fix',hypothesisId:'H4',location:'verify-email/page.tsx:47',message:'server-side verification call threw',data:{tokenLength:token.length,error:(error as Error)?.message??null},timestamp:Date.now()})}).catch(()=>{});
-    // #endregion
+  } catch {
     return "invalid";
   }
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -12,6 +11,7 @@ import { ARTICLE_STATUS_LABELS } from "@/hooks/articles/keys";
 import {
   useArchiveArticle,
   useDeleteArticle,
+  usePublishDraft,
   useRestoreArticle,
 } from "@/hooks/articles/use-article-mutations";
 import { useArticles } from "@/hooks/articles/use-articles";
@@ -46,14 +46,27 @@ function ManageArticleActions({
   const deleteMutation = useDeleteArticle();
   const archiveMutation = useArchiveArticle();
   const restoreMutation = useRestoreArticle();
+  const publishMutation = usePublishDraft();
   const busy =
-    deleteMutation.isPending || archiveMutation.isPending || restoreMutation.isPending;
+    deleteMutation.isPending ||
+    archiveMutation.isPending ||
+    restoreMutation.isPending ||
+    publishMutation.isPending;
 
   return (
     <div className="flex flex-wrap gap-2">
       <Button size="sm" variant="outline" render={<Link href={`${basePath}/${article.id}/edit`} />}>
         Edit
       </Button>
+      {article.status === "DRAFT" && (
+        <Button
+          size="sm"
+          disabled={busy}
+          onClick={() => publishMutation.mutate({ id: article.id })}
+        >
+          {publishMutation.isPending ? "Publishing..." : "Publish"}
+        </Button>
+      )}
       {article.status === "APPROVED" && (
         <Button
           size="sm"

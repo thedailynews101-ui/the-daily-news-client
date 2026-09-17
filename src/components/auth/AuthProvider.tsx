@@ -27,20 +27,13 @@ const AuthContext = React.createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
 
-  const { data, isLoading, status, fetchStatus } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: AUTH_ME_QUERY_KEY,
     queryFn: async (): Promise<AuthUser | null> => {
       const response = await getMe();
       return response.data;
     },
   });
-
-  // #region agent log
-  React.useEffect(() => {
-    const q = queryClient.getQueryCache().find({ queryKey: AUTH_ME_QUERY_KEY });
-    fetch('http://127.0.0.1:7579/ingest/dcec5555-5b6c-4a43-bb0d-e7523cdc3d5d',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'35c314'},body:JSON.stringify({sessionId:'35c314',runId:'pre-fix',hypothesisId:'H1/H3',location:'AuthProvider.tsx:38',message:'AuthProvider auth state changed',data:{path:typeof window!=='undefined'?window.location.pathname:null,hasUser:!!data,dataIsNull:data===null,dataIsUndefined:data===undefined,userRole:data?.role??null,isLoading,status,fetchStatus,cacheObserverCount:q?.observers.length??-1},timestamp:Date.now()})}).catch(()=>{});
-  }, [data, isLoading, status, fetchStatus, queryClient]);
-  // #endregion
 
   React.useEffect(() => {
     // Registered once; the interceptor calls this on a definitive
