@@ -9,19 +9,21 @@ export function MegaArticle({ article }: { article: Article }) {
 
   return (
     <article className="flex flex-col gap-4">
-      <Link
-        href={href}
-        className="relative block aspect-[16/10] w-full overflow-hidden rounded-lg bg-muted"
-      >
-        <Image
-          src={article.imageUrl}
-          alt={article.imageAlt}
-          fill
-          preload
-          sizes="(min-width: 1024px) 45vw, 100vw"
-          className="object-cover"
-        />
-      </Link>
+      {article.imageUrl ? (
+        <Link
+          href={href}
+          className="relative block aspect-[16/10] w-full overflow-hidden rounded-lg bg-muted"
+        >
+          <Image
+            src={article.imageUrl}
+            alt={article.imageAlt}
+            fill
+            preload
+            sizes="(min-width: 1024px) 45vw, 100vw"
+            className="object-cover"
+          />
+        </Link>
+      ) : null}
       <div>
         <CategoryLabel category={article.category} />
         <Link href={href}>
@@ -29,7 +31,9 @@ export function MegaArticle({ article }: { article: Article }) {
             {article.title}
           </h2>
         </Link>
-        <p className="mt-3 text-muted-foreground">{article.excerpt}</p>
+        {article.excerpt ? (
+          <p className="mt-3 text-muted-foreground">{article.excerpt}</p>
+        ) : null}
         <ArticleMeta article={article} className="mt-4" />
       </div>
     </article>

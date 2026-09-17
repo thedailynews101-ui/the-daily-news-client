@@ -32,7 +32,7 @@ export function HeroCarousel({ articles }: { articles: Article[] }) {
 
   return (
     <section
-      aria-label="Breaking news"
+      aria-label="Top stories"
       className="relative isolate h-[280px] w-full overflow-hidden sm:h-[360px] lg:h-[460px]"
     >
       {articles.map((article, i) => (
@@ -44,30 +44,38 @@ export function HeroCarousel({ articles }: { articles: Article[] }) {
             i === index ? "opacity-100" : "opacity-0"
           )}
         >
-          <Image
-            src={article.imageUrl}
-            alt={article.imageAlt}
-            fill
-            preload={i === 0}
-            sizes="100vw"
-            className="object-cover"
-          />
+          {article.imageUrl ? (
+            <Image
+              src={article.imageUrl}
+              alt={article.imageAlt}
+              fill
+              preload={i === 0}
+              sizes="100vw"
+              className="object-cover"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-muted" />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/10" />
         </div>
       ))}
 
       <div className="relative z-10 flex h-full flex-col justify-end px-4 pb-8 sm:px-6 lg:px-8">
-        <span className="mb-2 inline-flex w-fit items-center rounded-sm bg-brand px-2 py-0.5 text-xs font-semibold tracking-wide text-brand-foreground uppercase">
-          Breaking
-        </span>
+        {active.isBreaking ? (
+          <span className="mb-2 inline-flex w-fit items-center rounded-sm bg-brand px-2 py-0.5 text-xs font-semibold tracking-wide text-brand-foreground uppercase">
+            Breaking
+          </span>
+        ) : null}
         <Link href={`/articles/${active.slug}`} className="max-w-3xl">
           <h2 className="font-heading text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
             {active.title}
           </h2>
         </Link>
-        <p className="mt-2 line-clamp-2 max-w-2xl text-sm text-white/80 sm:text-base">
-          {active.excerpt}
-        </p>
+        {active.excerpt ? (
+          <p className="mt-2 line-clamp-2 max-w-2xl text-sm text-white/80 sm:text-base">
+            {active.excerpt}
+          </p>
+        ) : null}
       </div>
 
       {count > 1 && (

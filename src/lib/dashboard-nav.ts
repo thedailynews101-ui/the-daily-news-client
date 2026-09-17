@@ -14,6 +14,7 @@ export function getDashboardNavItems(role: UserRole): DashboardNavItem[] {
         { href: "/admin/dashboard", label: "Dashboard" },
         { href: "/admin/dashboard/manage-articles", label: "Manage Articles" },
         { href: "/admin/dashboard/requested-articles", label: "Requested Articles" },
+        { href: "/admin/dashboard/homepage", label: "Homepage" },
         { href: "/my-profile", label: "My Profile" },
         { href: "/change-password", label: "Change Password" },
       ];
@@ -22,6 +23,7 @@ export function getDashboardNavItems(role: UserRole): DashboardNavItem[] {
         { href: "/employee/dashboard", label: "Dashboard" },
         { href: "/employee/dashboard/manage-articles", label: "Manage Articles" },
         { href: "/employee/dashboard/requested-articles", label: "Requested Articles" },
+        { href: "/employee/dashboard/homepage", label: "Homepage" },
         { href: "/my-profile", label: "My Profile" },
         { href: "/change-password", label: "Change Password" },
       ];

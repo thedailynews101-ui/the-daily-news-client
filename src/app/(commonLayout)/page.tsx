@@ -1,10 +1,6 @@
 import {
   getDailyQuote,
-  getFeedArticles,
-  getHeroArticles,
-  getMegaArticle,
-  getPinnedArticles,
-  getVisualArticles,
+  getHomePageData,
   getWeatherSnapshot,
 } from "@/services/news.service";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
@@ -12,31 +8,24 @@ import { NewsfeedGrid } from "@/components/home/NewsfeedGrid";
 import { WidgetsRow } from "@/components/home/WidgetsRow";
 import { PromoBanner } from "@/components/home/PromoBanner";
 
-
 export default async function Home() {
-  const [heroArticles, megaArticle, feedArticles, visualArticles, pinnedArticles, quote, weather] =
-    await Promise.all([
-      getHeroArticles(),
-      getMegaArticle(),
-      getFeedArticles(),
-      getVisualArticles(),
-      getPinnedArticles(),
-      getDailyQuote(),
-      getWeatherSnapshot(),
-    ]);
+  const [home, quote, weather] = await Promise.all([
+    getHomePageData(),
+    getDailyQuote(),
+    getWeatherSnapshot(),
+  ]);
 
   return (
     <>
-      <HeroCarousel articles={heroArticles} />
+      <HeroCarousel articles={home.hero} />
       <NewsfeedGrid
-        mega={megaArticle}
-        feedArticles={feedArticles}
-        visualArticles={visualArticles}
-        pinnedArticles={pinnedArticles}
+        mega={home.mega}
+        feedArticles={home.feed}
+        visualArticles={home.visual}
+        pinnedArticles={home.pinned}
       />
       <WidgetsRow weather={weather} quote={quote} />
       <PromoBanner />
-      
     </>
   );
 }

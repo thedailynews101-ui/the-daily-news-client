@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { Article, ArticleCategory } from "@/types/news";
 
-const CATEGORY_LABELS: Record<ArticleCategory, string> = {
+const CATEGORY_LABELS: Record<string, string> = {
   politics: "Politics",
   business: "Business",
   technology: "Technology",
@@ -12,6 +12,11 @@ const CATEGORY_LABELS: Record<ArticleCategory, string> = {
   science: "Science",
   lifestyle: "Lifestyle",
 };
+
+function formatCategory(category: ArticleCategory): string {
+  if (!category) return "News";
+  return CATEGORY_LABELS[category] ?? category;
+}
 
 export function CategoryLabel({
   category,
@@ -27,7 +32,7 @@ export function CategoryLabel({
         className
       )}
     >
-      {CATEGORY_LABELS[category]}
+      {formatCategory(category)}
     </span>
   );
 }

@@ -1,7 +1,4 @@
-import { Search } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { NewsSearch } from "@/components/home/NewsSearch";
 
 export function Masthead() {
   const today = new Intl.DateTimeFormat("en-US", {
@@ -22,16 +19,7 @@ export function Masthead() {
         </h1>
       </div>
 
-      <form
-        role="search"
-        aria-label="Search news"
-        className="flex w-full max-w-xs items-center gap-2 sm:w-auto"
-      >
-        <Input type="search" placeholder="Search news…" aria-label="Search news" />
-        <Button type="submit" size="icon" variant="outline" aria-label="Search">
-          <Search className="size-4" />
-        </Button>
-      </form>
+      <NewsSearch />
     </div>
   );
 }
