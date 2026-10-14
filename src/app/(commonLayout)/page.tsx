@@ -22,7 +22,7 @@ export default async function Home() {
         mega={home.mega}
         feedArticles={home.feed}
         visualArticles={home.visual}
-        pinnedArticles={home.pinned}
+        eventGroups={home.eventGroups}
       />
       <WidgetsRow weather={weather} quote={quote} />
       <PromoBanner />

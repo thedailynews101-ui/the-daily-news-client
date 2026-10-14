@@ -195,6 +195,11 @@ export function ArticleForm({
                       </option>
                     ))}
                   </select>
+                  {categories.length === 0 && (
+                    <p className="text-xs text-muted-foreground">
+                      No categories yet. An admin can add them under Manage Categories.
+                    </p>
+                  )}
                 </div>
               )}
             </form.Field>

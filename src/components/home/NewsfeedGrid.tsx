@@ -1,3 +1,4 @@
+import type { PublicEventGroup } from "@/types/event";
 import type { Article } from "@/types/news";
 import { Masthead } from "./Masthead";
 import { FeedMainColumn } from "./FeedMainColumn";
@@ -8,12 +9,12 @@ export function NewsfeedGrid({
   mega,
   feedArticles,
   visualArticles,
-  pinnedArticles,
+  eventGroups,
 }: {
   mega: Article | null;
   feedArticles: Article[];
   visualArticles: Article[];
-  pinnedArticles: Article[];
+  eventGroups: PublicEventGroup[];
 }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -26,7 +27,7 @@ export function NewsfeedGrid({
           className="lg:border-l lg:border-border lg:pl-8"
         />
         <PinnedColumn
-          articles={pinnedArticles}
+          eventGroups={eventGroups}
           className="lg:border-l lg:border-border lg:pl-8"
         />
       </div>

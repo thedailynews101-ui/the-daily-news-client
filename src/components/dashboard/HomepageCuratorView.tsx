@@ -3,6 +3,7 @@
 import * as React from "react";
 import { ArrowDown, ArrowUp, Plus, X } from "lucide-react";
 
+import { ManageEventsView } from "@/components/dashboard/ManageEventsView";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,7 +15,15 @@ import {
 } from "@/hooks/articles/use-home-placement";
 import type { HomeSlot, PublicArticle } from "@/types/public-article";
 
-const SLOTS: Array<{ slot: HomeSlot; title: string; description: string; single?: boolean }> = [
+type ArticleHomeSlot = Exclude<HomeSlot, "PINNED">;
+
+/** Article slots only — Fixed News (col 4) is managed via events, not articles. */
+const SLOTS: Array<{
+  slot: ArticleHomeSlot;
+  title: string;
+  description: string;
+  single?: boolean;
+}> = [
   {
     slot: "HERO",
     title: "Hero carousel",
@@ -36,11 +45,6 @@ const SLOTS: Array<{ slot: HomeSlot; title: string; description: string; single?
     title: "Visual column (col 3)",
     description: "Image-first cards.",
   },
-  {
-    slot: "PINNED",
-    title: "Pinned column (col 4)",
-    description: "Dense text list on the right.",
-  },
 ];
 
 function SlotList({
@@ -50,7 +54,7 @@ function SlotList({
   single,
   articles,
 }: {
-  slot: HomeSlot;
+  slot: ArticleHomeSlot;
   title: string;
   description: string;
   single?: boolean;
@@ -87,7 +91,7 @@ function SlotList({
     placementMutation.mutate({ id: articleId, homeSlot: null });
   };
 
-  const moveTo = (articleId: string, nextSlot: HomeSlot) => {
+  const moveTo = (articleId: string, nextSlot: ArticleHomeSlot) => {
     placementMutation.mutate({ id: articleId, homeSlot: nextSlot, homeRank: 0 });
   };
 
@@ -182,7 +186,7 @@ function SlotList({
                 className="h-7 rounded-md border border-border bg-background px-2 text-xs"
                 value={slot}
                 disabled={busy}
-                onChange={(event) => moveTo(article.id, event.target.value as HomeSlot)}
+                onChange={(event) => moveTo(article.id, event.target.value as ArticleHomeSlot)}
                 aria-label="Move to slot"
               >
                 {SLOTS.map((option) => (
@@ -225,12 +229,11 @@ export function HomepageCuratorView() {
     return <p className="text-sm text-destructive">Could not load homepage layout.</p>;
   }
 
-  const bySlot: Record<HomeSlot, PublicArticle[]> = {
+  const bySlot: Record<ArticleHomeSlot, PublicArticle[]> = {
     HERO: data.hero,
     MEGA: data.mega ? [data.mega] : [],
     FEED: data.feed,
     VISUAL: data.visual,
-    PINNED: data.pinned,
   };
 
   return (
@@ -238,8 +241,8 @@ export function HomepageCuratorView() {
       <div>
         <h1 className="font-heading text-3xl font-semibold tracking-tight">Homepage</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Choose which published stories appear in the hero, mega, feed, visual, and pinned
-          columns. Shuffle by moving articles between slots.
+          Choose which published stories appear in the hero, mega, feed, and visual columns.
+          Fixed News (right column) is managed with linked events below — not articles.
         </p>
       </div>
 
@@ -255,6 +258,8 @@ export function HomepageCuratorView() {
           />
         ))}
       </div>
+
+      <ManageEventsView embedded />
     </div>
   );
 }

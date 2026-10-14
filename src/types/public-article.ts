@@ -1,3 +1,5 @@
+import type { PublicEventGroup } from "@/types/event";
+
 export type HomeSlot = "HERO" | "MEGA" | "FEED" | "VISUAL" | "PINNED";
 
 export type PublicArticleAuthor = {
@@ -43,7 +45,9 @@ export type HomeLayout = {
   mega: PublicArticle | null;
   feed: PublicArticle[];
   visual: PublicArticle[];
+  /** Fixed News uses eventGroups; kept empty for API compatibility. */
   pinned: PublicArticle[];
+  eventGroups: PublicEventGroup[];
 };
 
 export type PublicSearchResult = {

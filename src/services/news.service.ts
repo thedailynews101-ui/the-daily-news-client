@@ -1,3 +1,4 @@
+import type { PublicEventGroup } from "@/types/event";
 import type { Article, Quote, WeatherSnapshot } from "@/types/news";
 import { toHomeArticle } from "@/lib/map-public-article";
 import { getPublicHome } from "@/services/public-article.service";
@@ -10,7 +11,7 @@ export type HomePageData = {
   mega: Article | null;
   feed: Article[];
   visual: Article[];
-  pinned: Article[];
+  eventGroups: PublicEventGroup[];
 };
 
 /** Fetches the staff-curated homepage layout from the public API. */
@@ -23,10 +24,10 @@ export async function getHomePageData(): Promise<HomePageData> {
       mega: layout.mega ? toHomeArticle(layout.mega) : null,
       feed: layout.feed.map(toHomeArticle),
       visual: layout.visual.map(toHomeArticle),
-      pinned: layout.pinned.map(toHomeArticle),
+      eventGroups: layout.eventGroups ?? [],
     };
   } catch {
-    return { hero: [], mega: null, feed: [], visual: [], pinned: [] };
+    return { hero: [], mega: null, feed: [], visual: [], eventGroups: [] };
   }
 }
 
@@ -50,9 +51,9 @@ export async function getVisualArticles(): Promise<Article[]> {
   return data.visual;
 }
 
-export async function getPinnedArticles(): Promise<Article[]> {
+export async function getEventGroups(): Promise<PublicEventGroup[]> {
   const data = await getHomePageData();
-  return data.pinned;
+  return data.eventGroups;
 }
 
 export async function getDailyQuote(): Promise<Quote | null> {
