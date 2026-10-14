@@ -23,20 +23,3 @@ export interface Article {
   isPinned?: boolean;
 }
 
-export interface Quote {
-  id: string;
-  text: string;
-  author: string;
-  setBy: string;
-  date: string;
-  isActive: boolean;
-}
-
-export interface WeatherSnapshot {
-  location: string;
-  temperatureC: number;
-  condition: "sunny" | "cloudy" | "rainy" | "stormy" | "snowy" | "windy";
-  high: number;
-  low: number;
-  updatedAt: string;
-}

@@ -116,10 +116,10 @@ export default function AboutPage() {
 
       <section className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
         <h2 className="font-heading text-3xl font-bold sm:text-4xl">
-          Ready to read, save, and write your own stories?
+          Ready to read and write your own stories?
         </h2>
         <p className="mt-4 text-muted-foreground">
-          Create a free account to unlock your dashboard, save articles for later, and start
+          Create a free account to unlock your dashboard, and start
           pitching stories of your own.
         </p>
         <Button size="lg" className="mt-6" render={<Link href="/register" />}>

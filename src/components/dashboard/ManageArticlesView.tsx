@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import { useAuth } from "@/components/auth/AuthProvider";
 import { ArticleStatusBadge } from "@/components/dashboard/ArticleStatusBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,9 +40,11 @@ function formatDate(value: string | null): string {
 function ManageArticleActions({
   article,
   basePath,
+  isOwner,
 }: {
   article: Article;
   basePath: string;
+  isOwner: boolean;
 }) {
   const deleteMutation = useDeleteArticle();
   const archiveMutation = useArchiveArticle();
@@ -55,10 +58,12 @@ function ManageArticleActions({
 
   return (
     <div className="flex flex-wrap gap-2">
-      <Button size="sm" variant="outline" render={<Link href={`${basePath}/${article.id}/edit`} />}>
-        Edit
-      </Button>
-      {article.status === "DRAFT" && (
+      {isOwner && (
+        <Button size="sm" variant="outline" render={<Link href={`${basePath}/${article.id}/edit`} />}>
+          Edit
+        </Button>
+      )}
+      {isOwner && article.status === "DRAFT" && (
         <Button
           size="sm"
           disabled={busy}
@@ -87,18 +92,20 @@ function ManageArticleActions({
           Restore
         </Button>
       )}
-      <Button
-        size="sm"
-        variant="destructive"
-        disabled={busy}
-        onClick={() => {
-          if (window.confirm("Delete this article? This cannot be undone.")) {
-            deleteMutation.mutate(article.id);
-          }
-        }}
-      >
-        Delete
-      </Button>
+      {isOwner && (
+        <Button
+          size="sm"
+          variant="destructive"
+          disabled={busy}
+          onClick={() => {
+            if (window.confirm("Delete this article? This cannot be undone.")) {
+              deleteMutation.mutate(article.id);
+            }
+          }}
+        >
+          Delete
+        </Button>
+      )}
     </div>
   );
 }
@@ -109,6 +116,7 @@ type ManageArticlesViewProps = {
 };
 
 export function ManageArticlesView({ basePath }: ManageArticlesViewProps) {
+  const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const statusParam = searchParams.get("status");
@@ -135,7 +143,7 @@ export function ManageArticlesView({ basePath }: ManageArticlesViewProps) {
         <div>
           <h1 className="font-heading text-3xl font-semibold tracking-tight">Manage Articles</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Create, edit, and remove articles across the newsroom.
+            Edit or delete your own articles. Archive or restore any article in the newsroom.
           </p>
         </div>
         <Button render={<Link href={`${basePath}/new`} />}>New article</Button>
@@ -201,7 +209,11 @@ export function ManageArticlesView({ basePath }: ManageArticlesViewProps) {
               {article.excerpt && (
                 <p className="line-clamp-2 text-sm text-muted-foreground">{article.excerpt}</p>
               )}
-              <ManageArticleActions article={article} basePath={basePath} />
+              <ManageArticleActions
+                article={article}
+                basePath={basePath}
+                isOwner={article.author.id === user?.id}
+              />
             </CardContent>
           </Card>
         ))}

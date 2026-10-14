@@ -16,6 +16,9 @@ export function getDashboardNavItems(role: UserRole): DashboardNavItem[] {
         { href: "/admin/dashboard/requested-articles", label: "Requested Articles" },
         { href: "/admin/dashboard/homepage", label: "Homepage" },
         { href: "/admin/dashboard/manage-events", label: "Manage Events" },
+        { href: "/admin/dashboard/manage-quotes", label: "Manage Quotes" },
+        { href: "/admin/dashboard/public-opinion", label: "Public Opinion" },
+        { href: "/admin/dashboard/manage-widgets", label: "Manage Widgets" },
         { href: "/admin/dashboard/manage-roles", label: "Manage Roles" },
         { href: "/admin/dashboard/manage-categories", label: "Manage Categories" },
         { href: "/my-profile", label: "My Profile" },
@@ -28,6 +31,8 @@ export function getDashboardNavItems(role: UserRole): DashboardNavItem[] {
         { href: "/employee/dashboard/requested-articles", label: "Requested Articles" },
         { href: "/employee/dashboard/homepage", label: "Homepage" },
         { href: "/employee/dashboard/manage-events", label: "Manage Events" },
+        { href: "/employee/dashboard/manage-quotes", label: "Manage Quotes" },
+        { href: "/employee/dashboard/public-opinion", label: "Public Opinion" },
         { href: "/my-profile", label: "My Profile" },
         { href: "/change-password", label: "Change Password" },
       ];

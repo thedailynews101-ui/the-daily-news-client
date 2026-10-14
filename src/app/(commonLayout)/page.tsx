@@ -1,19 +1,13 @@
-import {
-  getDailyQuote,
-  getHomePageData,
-  getWeatherSnapshot,
-} from "@/services/news.service";
+import { getHomePageData, getPublicWidgetsData } from "@/services/news.service";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { NewsfeedGrid } from "@/components/home/NewsfeedGrid";
 import { WidgetsRow } from "@/components/home/WidgetsRow";
 import { PromoBanner } from "@/components/home/PromoBanner";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
-  const [home, quote, weather] = await Promise.all([
-    getHomePageData(),
-    getDailyQuote(),
-    getWeatherSnapshot(),
-  ]);
+  const [home, widgets] = await Promise.all([getHomePageData(), getPublicWidgetsData()]);
 
   return (
     <>
@@ -24,7 +18,7 @@ export default async function Home() {
         visualArticles={home.visual}
         eventGroups={home.eventGroups}
       />
-      <WidgetsRow weather={weather} quote={quote} />
+      <WidgetsRow widgets={widgets} />
       <PromoBanner />
     </>
   );

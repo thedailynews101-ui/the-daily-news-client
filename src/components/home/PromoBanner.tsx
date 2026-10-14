@@ -31,7 +31,7 @@ export function PromoBanner() {
             Unlock Something <span className="text-amber-300">Extraordinary</span>.
           </h2>
           <p className="mt-3 text-white/80">
-            Create a free account to save stories, follow topics you care about, and even
+            Create a free account to 
             publish your own news once our editors approve it.
           </p>
           <Button size="lg" className="mt-6" render={<Link href="/register" />}>

@@ -1,6 +1,6 @@
 import { Cloud, CloudLightning, CloudRain, CloudSnow, Sun, Wind, type LucideIcon } from "lucide-react";
 
-import type { WeatherSnapshot } from "@/types/news";
+import type { WeatherSnapshot } from "@/types/widget";
 
 const CONDITION_ICON: Record<WeatherSnapshot["condition"], LucideIcon> = {
   sunny: Sun,
@@ -11,8 +11,6 @@ const CONDITION_ICON: Record<WeatherSnapshot["condition"], LucideIcon> = {
   windy: Wind,
 };
 
-// Placeholder widget backed by src/services/news.service.ts#getWeatherSnapshot.
-// Swap for a real third-party weather API integration later.
 export function WeatherWidget({ weather }: { weather: WeatherSnapshot }) {
   const Icon = CONDITION_ICON[weather.condition];
 

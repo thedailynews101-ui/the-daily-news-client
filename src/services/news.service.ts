@@ -1,10 +1,9 @@
 import type { PublicEventGroup } from "@/types/event";
-import type { Article, Quote, WeatherSnapshot } from "@/types/news";
+import type { Article } from "@/types/news";
+import type { PublicWidgetsPayload } from "@/types/widget";
 import { toHomeArticle } from "@/lib/map-public-article";
 import { getPublicHome } from "@/services/public-article.service";
-import quotesData from "@/data/quotes.json";
-
-const quotes = quotesData as Quote[];
+import { getPublicWidgets } from "@/services/public-widgets.service";
 
 export type HomePageData = {
   hero: Article[];
@@ -31,6 +30,27 @@ export async function getHomePageData(): Promise<HomePageData> {
   }
 }
 
+export async function getPublicWidgetsData(): Promise<PublicWidgetsPayload> {
+  try {
+    const response = await getPublicWidgets();
+    return response.data;
+  } catch {
+    return {
+      weather: {
+        location: "Dhaka",
+        temperatureC: 26,
+        condition: "cloudy",
+        high: 31,
+        low: 25,
+        updatedAt: new Date().toISOString(),
+      },
+      middleWidget: "QUOTE",
+      quote: null,
+      publicOpinion: null,
+    };
+  }
+}
+
 export async function getHeroArticles(): Promise<Article[]> {
   const data = await getHomePageData();
   return data.hero;
@@ -54,19 +74,4 @@ export async function getVisualArticles(): Promise<Article[]> {
 export async function getEventGroups(): Promise<PublicEventGroup[]> {
   const data = await getHomePageData();
   return data.eventGroups;
-}
-
-export async function getDailyQuote(): Promise<Quote | null> {
-  return quotes.find((quote) => quote.isActive) ?? quotes[0] ?? null;
-}
-
-export async function getWeatherSnapshot(): Promise<WeatherSnapshot> {
-  return {
-    location: "Dhaka",
-    temperatureC: 26,
-    condition: "cloudy",
-    high: 31,
-    low: 25,
-    updatedAt: new Date().toISOString(),
-  };
 }

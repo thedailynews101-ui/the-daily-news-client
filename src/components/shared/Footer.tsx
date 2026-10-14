@@ -12,14 +12,7 @@ const ACCOUNT_LINKS = [
   { href: "/dashboard", label: "My Dashboard" },
 ];
 
-// lucide-react no longer ships trademarked brand logos, so social links use
-// simple letter badges instead of platform icons.
-const SOCIAL_LINKS = [
-  { href: "#", label: "Facebook", initials: "F" },
-  { href: "#", label: "X (Twitter)", initials: "X" },
-  { href: "#", label: "Instagram", initials: "IG" },
-  { href: "#", label: "YouTube", initials: "YT" },
-];
+
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -34,19 +27,7 @@ export function Footer() {
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">
             Trusted daily news, built for a generation that reads on the go.
           </p>
-          <div className="mt-4 flex items-center gap-3">
-            {SOCIAL_LINKS.map(({ href, label, initials }) => (
-              <Link
-                key={label}
-                href={href}
-                aria-label={label}
-                title={label}
-                className="inline-flex size-8 items-center justify-center rounded-full border border-border text-[11px] font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-              >
-                {initials}
-              </Link>
-            ))}
-          </div>
+          
         </div>
 
         <div>
@@ -86,34 +67,19 @@ export function Footer() {
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
             <li className="flex items-center gap-2">
               <Mail className="size-4 shrink-0" />
-              <span>hello@dailynewsfeed.com</span>
+              <span>thedailynews101@gmail.com</span>
             </li>
             <li className="flex items-center gap-2">
               <Phone className="size-4 shrink-0" />
-              <span>+880 1234 567890</span>
+              <span>+880 1743568912</span>
             </li>
             <li className="flex items-start gap-2">
               <MapPin className="size-4 shrink-0 translate-y-0.5" />
-              <span>Dhaka, Bangladesh</span>
+              <span>Chittagong, Bangladesh</span>
             </li>
           </ul>
 
-          <div className="mt-4 flex flex-col gap-2">
-            <Link
-              href="#"
-              className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-xs font-medium transition-colors hover:bg-muted"
-            >
-              <Apple className="size-4" />
-              Get it on App Store
-            </Link>
-            <Link
-              href="#"
-              className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-xs font-medium transition-colors hover:bg-muted"
-            >
-              <Smartphone className="size-4" />
-              Get it on Google Play
-            </Link>
-          </div>
+          
         </div>
       </div>
 
@@ -121,12 +87,12 @@ export function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-4 text-xs sm:flex-row sm:px-6 lg:px-8">
           <p>© {year} The Daily Newsfeed. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            <Link href="#" className="transition-colors hover:text-neutral-200">
+            {/* <Link href="#" className="transition-colors hover:text-neutral-200">
               Privacy Policy
             </Link>
             <Link href="#" className="transition-colors hover:text-neutral-200">
               Terms
-            </Link>
+            </Link> */}
             <Link href="/about" className="transition-colors hover:text-neutral-200">
               What We Do
             </Link>
