@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -46,11 +47,15 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/"
-          className="shrink-0 font-heading text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          The Daily Newsfeed
+        <Link href="/" className="shrink-0" aria-label="inQtin home">
+          <Image
+            src="/inqtin-logo.jpg"
+            alt="inQtin"
+            width={160}
+            height={44}
+            className="h-9 w-auto sm:h-10"
+            priority
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">

@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/card";
 
 export const metadata: Metadata = {
-  title: "Verify email - The Daily Newsfeed",
+  title: "Verify email - inQtin",
 };
 
 const readParam = (value: string | string[] | undefined): string | undefined =>

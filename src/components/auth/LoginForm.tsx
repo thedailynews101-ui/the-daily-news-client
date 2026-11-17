@@ -56,7 +56,7 @@ export function LoginForm() {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl">Log in</CardTitle>
-        <CardDescription>Welcome back to The Daily Newsfeed.</CardDescription>
+        <CardDescription>Welcome back to inQtin.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {unverifiedEmail && (

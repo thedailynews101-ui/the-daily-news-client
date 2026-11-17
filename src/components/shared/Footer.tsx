@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, MapPin, Apple, Smartphone } from "lucide-react";
 
@@ -21,8 +22,14 @@ export function Footer() {
     <footer className="border-t border-border bg-background">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
         <div className="sm:col-span-2 lg:col-span-1">
-          <Link href="/" className="font-heading text-xl font-bold tracking-tight">
-            The Daily Newsfeed
+          <Link href="/" className="inline-block" aria-label="inQtin home">
+            <Image
+              src="/inqtin-logo.jpg"
+              alt="inQtin"
+              width={160}
+              height={44}
+              className="h-9 w-auto"
+            />
           </Link>
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">
             Trusted daily news, built for a generation that reads on the go.
@@ -85,7 +92,7 @@ export function Footer() {
 
       <div className="bg-neutral-950 text-neutral-400">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-4 text-xs sm:flex-row sm:px-6 lg:px-8">
-          <p>© {year} The Daily Newsfeed. All rights reserved.</p>
+          <p>© {year} inQtin. All rights reserved.</p>
           <div className="flex items-center gap-4">
             {/* <Link href="#" className="transition-colors hover:text-neutral-200">
               Privacy Policy

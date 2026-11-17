@@ -5,7 +5,7 @@ import { SearchResultsView } from "@/components/home/SearchResultsView";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = {
-  title: "Search - The Daily Newsfeed",
+  title: "Search - inQtin",
 };
 
 export default function SearchPage() {

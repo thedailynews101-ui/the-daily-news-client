@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 
@@ -39,11 +40,15 @@ export function DashboardTopBar({ onOpenMobileNav }: DashboardTopBarProps) {
           >
             <Menu className="size-5" />
           </button>
-          <Link
-            href="/"
-            className="shrink-0 font-heading text-xl font-bold tracking-tight sm:text-2xl"
-          >
-            The Daily Newsfeed
+          <Link href="/" className="shrink-0" aria-label="inQtin home">
+            <Image
+              src="/inqtin-logo.jpg"
+              alt="inQtin"
+              width={160}
+              height={44}
+              className="h-9 w-auto sm:h-10"
+              priority
+            />
           </Link>
         </div>
 

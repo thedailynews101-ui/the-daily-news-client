@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { SignupForm } from "@/components/auth/SignupForm";
 
 export const metadata: Metadata = {
-  title: "Sign up - The Daily Newsfeed",
+  title: "Sign up - inQtin",
 };
 
 export default function RegisterPage() {

@@ -5,9 +5,9 @@ import { CircleCheckBig, SquarePen, ShieldCheck, Sparkles, Users, Eye } from "lu
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "About Us | The Daily Newsfeed",
+  title: "About Us | inQtin",
   description:
-    "The Daily Newsfeed is a daily newsfeed built for youth — trusted, verified reporting plus a community publishing model where any user can write news for admin review.",
+    "inQtin is a daily newsfeed built for youth — trusted, verified reporting plus a community publishing model where any user can write news for admin review.",
 };
 
 const DIFFERENTIATORS = [
@@ -45,7 +45,7 @@ const PUBLISHING_STEPS = [
   {
     icon: CircleCheckBig,
     title: "3. Publish",
-    description: "Approved stories go live on The Daily Newsfeed, credited to you as the author.",
+    description: "Approved stories go live on inQtin, credited to you as the author.",
   },
 ];
 
@@ -58,7 +58,7 @@ export default function AboutPage() {
           Daily news, built for people who grew up online.
         </h1>
         <p className="mt-5 text-lg text-muted-foreground">
-          The Daily Newsfeed is a daily newsfeed focused on youth — fast, honest reporting on the
+          inQtin is a daily newsfeed focused on youth — fast, honest reporting on the
           stories that matter to a generation that reads on their phone between classes, shifts,
           and everything else.
         </p>
@@ -123,7 +123,7 @@ export default function AboutPage() {
           pitching stories of your own.
         </p>
         <Button size="lg" className="mt-6" render={<Link href="/register" />}>
-          Join The Daily Newsfeed
+          Join inQtin
         </Button>
       </section>
     </>

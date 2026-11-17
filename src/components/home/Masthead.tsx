@@ -15,7 +15,7 @@ export function Masthead() {
           {today}
         </p>
         <h1 className="font-heading text-4xl font-black tracking-tight sm:text-5xl">
-          The Daily Newsfeed
+          inQtin
         </h1>
       </div>
 

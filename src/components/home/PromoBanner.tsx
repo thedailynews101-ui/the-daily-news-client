@@ -25,7 +25,7 @@ export function PromoBanner() {
 
         <div className="relative z-10 max-w-xl">
           <p className="text-sm font-semibold tracking-widest text-white/70 uppercase">
-            The Daily Newsfeed
+            inQtin
           </p>
           <h2 className="mt-2 font-heading text-3xl font-bold sm:text-4xl">
             Unlock Something <span className="text-amber-300">Extraordinary</span>.

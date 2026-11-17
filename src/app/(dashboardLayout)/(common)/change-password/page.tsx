@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ChangePasswordForm } from "@/components/auth/ChangePasswordForm";
 
 export const metadata: Metadata = {
-  title: "Change password - The Daily Newsfeed",
+  title: "Change password - inQtin",
 };
 
 export default function ChangePasswordPage() {

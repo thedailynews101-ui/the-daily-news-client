@@ -23,9 +23,9 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "The Daily Newsfeed",
+  title: "inQtin",
   description:
-    "The Daily Newsfeed is a platform for sharing and discovering news and information.",
+    "inQtin is a platform for sharing and discovering news and information.",
 };
 
 // Runs before paint so the stored color mode is applied without a flash of

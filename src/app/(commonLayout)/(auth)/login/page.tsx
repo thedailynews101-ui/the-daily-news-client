@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { LoginForm } from "@/components/auth/LoginForm";
 
 export const metadata: Metadata = {
-  title: "Log in - The Daily Newsfeed",
+  title: "Log in - inQtin",
 };
 
 export default function LoginPage() {

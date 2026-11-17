@@ -23,11 +23,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const article = await loadArticle(slug);
 
   if (!article) {
-    return { title: "Article not found - The Daily Newsfeed" };
+    return { title: "Article not found - inQtin" };
   }
 
   return {
-    title: `${article.title} - The Daily Newsfeed`,
+    title: `${article.title} - inQtin`,
     description: article.excerpt ?? undefined,
   };
 }

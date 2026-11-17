@@ -70,7 +70,7 @@ export function SignupForm() {
       <CardHeader>
         <CardTitle className="text-2xl">Create your account</CardTitle>
         <CardDescription>
-          Join The Daily Newsfeed to save articles, comment, and pitch stories.
+          Join inQtin to save articles, comment, and pitch stories.
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ResetPasswordForm } from "@/components/auth/ResetPasswordForm";
 
 export const metadata: Metadata = {
-  title: "Reset password - The Daily Newsfeed",
+  title: "Reset password - inQtin",
 };
 
 export default async function ResetPasswordPage(props: PageProps<"/reset-password">) {
