@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Auth cookies must be first-party: browsers that block third-party cookies
+  // (incognito, many default profiles) drop cookies set by a different site.
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/:path*`,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

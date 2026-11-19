@@ -61,7 +61,8 @@ const getInstance = (): AxiosInstance => {
   }
 
   const client = axios.create({
-    baseURL,
+    // In the browser, call our own origin; next.config rewrites proxy /api/* to the API.
+    baseURL: typeof window === "undefined" ? baseURL : "",
     // Cookies (accessToken/refreshToken) are HTTP-only and set by the API
     // origin - this is what makes the browser send them on every request.
     withCredentials: true,
