@@ -72,10 +72,63 @@ const getInstance = (): AxiosInstance => {
   });
 
   client.interceptors.response.use(
-    (response) => response,
+    (response) => {
+      // #region agent log
+      const url = String(response.config.url ?? "");
+      if (url.includes("/auth/login") || url.includes("/auth/me") || url.includes("/auth/refresh-token")) {
+        fetch("http://127.0.0.1:7750/ingest/cf35cf32-3598-447a-8d7f-fee6f91430b3", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "b31edf" },
+          body: JSON.stringify({
+            sessionId: "b31edf",
+            runId: "pre-fix",
+            hypothesisId: url.includes("login") ? "A" : url.includes("refresh") ? "B" : "E",
+            location: "httpClient.ts:responseSuccess",
+            message: "auth response ok",
+            data: {
+              url,
+              status: response.status,
+              baseURL: response.config.baseURL,
+              withCredentials: response.config.withCredentials === true,
+              visibleCookieCount: typeof document !== "undefined" ? document.cookie.split(";").filter(Boolean).length : -1,
+            },
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+      }
+      // #endregion
+      return response;
+    },
     async (error: AxiosError) => {
       const originalRequest = error.config as RetryableRequestConfig | undefined;
       const isUnauthorized = error.response?.status === 401;
+      // #region agent log
+      fetch("http://127.0.0.1:7750/ingest/cf35cf32-3598-447a-8d7f-fee6f91430b3", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "b31edf" },
+        body: JSON.stringify({
+          sessionId: "b31edf",
+          runId: "pre-fix",
+          hypothesisId: "E",
+          location: "httpClient.ts:responseError",
+          message: "auth request failed",
+          data: {
+            url: String(originalRequest?.url ?? ""),
+            status: error.response?.status ?? null,
+            method: String(originalRequest?.method ?? ""),
+            skipAuthRefresh: Boolean(originalRequest?.skipAuthRefresh),
+            alreadyRetried: Boolean(originalRequest?._retry),
+            willAttemptRefresh:
+              isUnauthorized &&
+              !!originalRequest &&
+              !originalRequest.skipAuthRefresh &&
+              !originalRequest._retry,
+            apiMessage: (error.response?.data as { message?: string } | undefined)?.message ?? null,
+          },
+          timestamp: Date.now(),
+        }),
+      }).catch(() => {});
+      // #endregion
 
       const shouldAttemptRefresh =
         isUnauthorized &&
@@ -93,6 +146,26 @@ const getInstance = (): AxiosInstance => {
         await refreshAccessToken(client);
         return client(originalRequest);
       } catch (refreshError) {
+        // #region agent log
+        fetch("http://127.0.0.1:7750/ingest/cf35cf32-3598-447a-8d7f-fee6f91430b3", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "b31edf" },
+          body: JSON.stringify({
+            sessionId: "b31edf",
+            runId: "pre-fix",
+            hypothesisId: "A",
+            location: "httpClient.ts:refreshFailed",
+            message: "refresh failed clearing auth",
+            data: {
+              refreshStatus: (refreshError as AxiosError)?.response?.status ?? null,
+              refreshMessage:
+                ((refreshError as AxiosError)?.response?.data as { message?: string } | undefined)
+                  ?.message ?? null,
+            },
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+        // #endregion
         // Refresh itself failed (401) - the session is definitively gone.
         authFailureListener?.();
         return Promise.reject(refreshError);
